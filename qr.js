@@ -58,25 +58,7 @@ router.get('/', async (req, res) => {
 				   let b64data = Buffer.from(data).toString('base64');
 				   let session = await Qr_Code_By_Maher_Zubair.sendMessage(Qr_Code_By_Maher_Zubair.user.id, { text: "" + b64data });
 	
-				   let SIGMA_MD_TEXT = `
-┏━━━━━━━━━━━━━━
-┃MASTER MD SESSION IS 
-┃SUCCESSFULLY
-┃CONNECTED ✅🔥
-┗━━━━━━━━━━━━━━━
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❶ || Creator = Sahan / MASTER MIND_👨🏻‍💻
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❷ || WhattsApp Channel = https://whatsapp.com/channel/0029VaWWZa1G3R3c4TPADo0M
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❸ || Owner = https://wa.me/+94720797915
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❺ || INSTAGRAM = https://www.instagram.com/sahanmaduwantha2006?igsh=YzljYTk1ODg3Zg==
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-❻ || FaceBook = https://www.facebook.com/profile.php?id=100089180711131
-▬▬▬▬▬▬▬▬▬▬▬▬▬▬
-ᴄʀᴇᴀᴛᴇᴅ ʙʏ ᴍʀ ꜱᴀʜᴀɴ ᴏꜰᴄ
-       `
+				   let SIGMA_MD_TEXT = `𝘛𝘩𝘢𝘯𝘬 𝘠𝘰𝘶 𝘍𝘰𝘳 𝘊𝘩𝘰𝘰𝘴𝘪𝘯𝘨 𝘍𝘦𝘯𝘪𝘹 𝘔𝘥\n\n 𝘋𝘰𝘯'𝘵 𝘚𝘩𝘢𝘳𝘦 𝘠𝘰𝘶 𝘚𝘦𝘴𝘴𝘪𝘰𝘯 𝘐𝘥 𝘞𝘪𝘵𝘩 𝘌𝘯𝘺𝘰𝘯𝘦`
 	 await Qr_Code_By_Maher_Zubair.sendMessage(Qr_Code_By_Maher_Zubair.user.id,{text:SIGMA_MD_TEXT},{quoted:session})
 
 
