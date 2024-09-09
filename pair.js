@@ -1,88 +1,81 @@
-const axios = require('axios');
-const { MONGODB_URL, SESSION_NAME } = require('./config');
-const { makeid } = require('./id');
+const PastebinAPI = require('pastebin-js'),
+pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL')
+const {makeid} = require('./id');
 const express = require('express');
 const fs = require('fs');
-let router = express.Router();
+let router = express.Router()
 const pino = require("pino");
 const {
-    default: makeWASocket,
+    default: Maher_Zubair,
     useMultiFileAuthState,
     delay,
-    Browsers,
-    makeCacheableSignalKeyStore
-} = require("@whiskeysockets/baileys");
+    makeCacheableSignalKeyStore,
+    Browsers
+} = require("maher-zubair-baileys");
 
-function removeFile(FilePath) {
-    if (!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true });
-};
-
+function removeFile(FilePath){
+    if(!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true })
+ };
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-
-    async function getPaire() {
-        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
-        try {
-            let session = makeWASocket({
+        async function SIGMA_MD_PAIR_CODE() {
+        const {
+            state,
+            saveCreds
+        } = await useMultiFileAuthState('./temp/'+id)
+     try {
+            let Pair_Code_By_Maher_Zubair = Maher_Zubair({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: Browsers.macOS("Safari"),
+                browser: ["Chrome (Linux)", "", ""]
              });
-
-            if (!session.authState.creds.registered) {
+             if(!Pair_Code_By_Maher_Zubair.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g, '');
-                const code = await session.requestPairingCode(num);
-                if (!res.headersSent) {
-                    await res.send({ code });
-                }
-            }
-
-            session.ev.on('creds.update', saveCreds);
-
-            session.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
-
+                        num = num.replace(/[^0-9]/g,'');
+                            const code = await Pair_Code_By_Maher_Zubair.requestPairingCode(num)
+                 if(!res.headersSent){
+                 await res.send({code});
+                     }
+                 }
+            Pair_Code_By_Maher_Zubair.ev.on('creds.update', saveCreds)
+            Pair_Code_By_Maher_Zubair.ev.on("connection.update", async (s) => {
+                const {
+                    connection,
+                    lastDisconnect
+                } = s;
                 if (connection == "open") {
-                    await delay(5000);
-                    await delay(5000);
+                await delay(5000);
+                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                await delay(800);
+               let b64data = Buffer.from(data).toString('base64');
+               let session = await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id, { text: "" + b64data });
 
-                    const jsonData = await fs.promises.readFile(`${__dirname}/temp/${id}/creds.json`, 'utf-8');
-                    const { data } = await axios.post('https://api.lokiser.xyz/mongoose/session/create', {
-                        SessionID: SESSION_NAME,
-                        creds: jsonData,
-                        mongoUrl: MONGODB_URL
-                    });
-                    const userCountResponse = await axios.post('https://api.lokiser.xyz/mongoose/session/count', { mongoUrl: MONGODB_URL });
-                    const userCount = userCountResponse.data.count;
-                    
-                    await session.sendMessage(session.user.id, { text: ` *Successfully Connected*\n\n *Total Scan :* ${userCount}` });
-                    await session.sendMessage(session.user.id, { text: data.data });
+               let SIGMA_MD_TEXT = `𝘛𝘩𝘢𝘯𝘬 𝘠𝘰𝘶 𝘍𝘰𝘳 𝘊𝘩𝘰𝘰𝘴𝘪𝘯𝘨 𝘍𝘦𝘯𝘪𝘹 𝘔𝘥\n\n 𝘋𝘰𝘯'𝘵 𝘚𝘩𝘢𝘳𝘦 𝘠𝘰𝘶 𝘚𝘦𝘴𝘴𝘪𝘰𝘯 𝘐𝘥 𝘞𝘪𝘵𝘩 𝘌𝘯𝘺𝘰𝘯𝘦`
+ await Pair_Code_By_Maher_Zubair.sendMessage(Pair_Code_By_Maher_Zubair.user.id,{text:SIGMA_MD_TEXT},{quoted:session})
+ 
 
-                    await delay(100);
-                    await session.ws.close();
-                    return await removeFile('./temp/' + id);
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+        await delay(100);
+        await Pair_Code_By_Maher_Zubair.ws.close();
+        return await removeFile('./temp/'+id);
+            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
-                    getPaire();
+                    SIGMA_MD_PAIR_CODE();
                 }
             });
         } catch (err) {
             console.log("service restated");
-            await removeFile('./temp/' + id);
-            if (!res.headersSent) {
-                await res.send({ code: "Service Unavailable" });
-            }
+            await removeFile('./temp/'+id);
+         if(!res.headersSent){
+            await res.send({code:"Service Unavailable"});
+         }
         }
     }
-
-    return await getPaire();
+    return await SIGMA_MD_PAIR_CODE()
 });
-
-module.exports = router;
+module.exports = router
